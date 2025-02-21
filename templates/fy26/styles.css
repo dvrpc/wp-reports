@@ -4,28 +4,55 @@
 }
 
 @font-face {
-  font-family: "Calibri";
   font-weight: bold;
+  font-family: "Calibri";
   src: url(https://github.com/jondot/dotfiles/raw/refs/heads/master/.fonts/calibri.ttf);
 }
 
 @page {
-  size: letter;
   margin-top: 0.5in;
-  margin-left: 0.75in;
-  margin-right: 0.75in;
   margin-bottom: 0.6in;
+  size: letter;
+}
+
+@page :nth(2n) {
+  margin-right: 1in;
+  margin-left: 0.75in;
 
   @bottom-left {
-    border-top: 1px solid black;
-    content: element(pageHeader);
     width: 100%;
+    padding-top: 12px;
+    font-size: 11pt;
+    font-family: "Calibri";
+    vertical-align: top;
+    border-top: 1px solid black;
+    content: counter(page) " | {{ chapter }}";
   }
   @bottom-right {
-    content: "{{ chapter }} | " counter(page);
+    padding-top: 6px;
+    vertical-align: top;
+    content: element(pageHeader);
+  }
+}
+
+@page :nth(2n+1) {
+  margin-right: 0.75in;
+  margin-left: 1in;
+
+  @bottom-left {
+    width: 100%;
+    padding-top: 6px;
+    vertical-align: top;
+    border-top: 1px solid black;
+    content: element(pageHeader);
+  }
+  @bottom-right {
     width: 75%;
+    padding-top: 12px;
+    font-size: 11pt;
     font-family: "Calibri";
-    font-size: 10pt;
+    vertical-align: top;
+    content: "{{ chapter }} | " counter(page);
   }
 }
 
@@ -35,26 +62,16 @@
 
 @page blank {
   @bottom-left {
-    content: none;
     border: none;
-  } 
-  @bottom-right {
     content: none;
   }
-}
-
-@page toc {
-  @bottom-left {
-    content: none;
-    border: none;
-  } 
   @bottom-right {
     content: none;
   }
 }
 
 @media print {
-  #divHeader {
+  #pageFooter {
     position: running(pageHeader);
   }
 }
@@ -64,10 +81,10 @@ svg {
 }
 
 article {
-  font-family: Calibri;
-  font-size: 11pt;
-  line-height: 1.1;
   width: 100%;
+  font-size: 11pt;
+  font-family: Calibri;
+  line-height: 1.1;
   break-after: always;
 }
 
@@ -83,15 +100,160 @@ article:last-of-type {
   page: toc;
 }
 
-.toc a {
-  position: relative;
+#pageFooter svg {
+  width: 0.81in;
+  vertical-align: top;
 }
 
-.toc a::after {
-  content: target-counter(attr(href), page);
+h2 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  font-weight: normal;
+  font-size: 24pt;
+}
+
+.toc-header-dvrpc {
+  margin: 0;
+  margin-top: 16px;
+  font-size: 13pt;
+}
+
+.toc-header-upwp {
+  margin: 0;
+  margin-top: 4px;
+  font-size: 13pt;
+}
+
+.toc-header-toc {
+  margin: 0;
+  margin-top: 16px;
+  font-weight: bold;
+  font-size: 24pt;
+}
+
+.toc ul {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toc-row {
+  display: flex;
+  padding: 2px;
+  line-height: 1;
+  border-bottom: 1px solid #000;
+}
+
+.toc-row-proid {
+  display: block;
+  width: 15%;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.toc-row a {
+  position: relative;
+  display: block;
+  width: 85%;
+  padding: 2px 0;
+  padding-right: 5%;
+  color: inherit;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.toc-row a::after {
   position: absolute;
   right: 0;
   text-align: right;
+  content: target-counter(attr(href), page);
+}
+
+h3 {
+  display: flex;
+  margin: 0;
+  font-size: inherit;
+  border-bottom: 2px solid black;
+}
+
+h3 > * {
+  float: left;
+}
+
+h3 > strong {
+  clear: left;
+  width: 25%;
+}
+
+h4 {
+  margin: 0;
+  font-weight: bold;
+  break-after: avoid;
+}
+
+h4.header {
+  margin-bottom: 8px;
+  color: #666;
+  font-weight: normal;
+  font-size: 12pt;
+}
+
+dl {
+  clear: both;
+  width: 100%;
+  margin-top: 8px;
+}
+
+dl:after {
+  display: table;
+  clear: both;
+  content: "";
+}
+
+dt {
+  float: left;
+  clear: left;
+  width: 25%;
+  font-weight: bold;
+}
+
+dd {
+  float: left;
+  clear: left;
+  margin-left: 25%;
+}
+
+dt + dd {
+  float: left;
+  clear: none;
+  margin-left: 0;
+}
+
+table,
+thead,
+tbody,
+th,
+tr {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+}
+
+table {
+  width: 100%;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+th {
+  font-weight: bold;
+}
+
+td,
+th {
+  padding: 3px 0;
+  border-top: 1px solid black;
 }
 
 .fundingnote p {

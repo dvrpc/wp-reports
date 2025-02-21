@@ -44,7 +44,7 @@ async def chapter(request: Request, chapter_id):
                "5B": "New Jersey CRRSAA-funded Projects",
                "6": "Continuing Projects",
                "": ""}[chapter_id.upper()]
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}&showlive=T")
     if not result:
         return text(f"Chapter {chapter_id} not found")
     if result["items"] == []:
