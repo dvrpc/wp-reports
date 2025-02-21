@@ -1,0 +1,6 @@
+aiohttp
+black
+Jinja2
+pycodestyle
+pylint
+sanic[ext]==24.6.0

@@ -1,0 +1,99 @@
+@font-face {
+  font-family: "Calibri";
+  src: url(https://github.com/jondot/dotfiles/raw/refs/heads/master/.fonts/calibri.ttf);
+}
+
+@font-face {
+  font-family: "Calibri";
+  font-weight: bold;
+  src: url(https://github.com/jondot/dotfiles/raw/refs/heads/master/.fonts/calibri.ttf);
+}
+
+@page {
+  size: letter;
+  margin-top: 0.5in;
+  margin-left: 0.75in;
+  margin-right: 0.75in;
+  margin-bottom: 0.6in;
+
+  @bottom-left {
+    border-top: 1px solid black;
+    content: element(pageHeader);
+    width: 100%;
+  }
+  @bottom-right {
+    content: "{{ chapter }} | " counter(page);
+    width: 75%;
+    font-family: "Calibri";
+    font-size: 10pt;
+  }
+}
+
+@page :first {
+  counter-reset: page {{ pageno }};
+}
+
+@page blank {
+  @bottom-left {
+    content: none;
+    border: none;
+  } 
+  @bottom-right {
+    content: none;
+  }
+}
+
+@page toc {
+  @bottom-left {
+    content: none;
+    border: none;
+  } 
+  @bottom-right {
+    content: none;
+  }
+}
+
+@media print {
+  #divHeader {
+    position: running(pageHeader);
+  }
+}
+
+svg {
+  margin-right: 4px;
+}
+
+article {
+  font-family: Calibri;
+  font-size: 11pt;
+  line-height: 1.1;
+  width: 100%;
+  break-after: always;
+}
+
+article:last-of-type {
+  break-after: auto;
+}
+
+.blank {
+  page: blank;
+}
+
+.toc {
+  page: toc;
+}
+
+.toc a {
+  position: relative;
+}
+
+.toc a::after {
+  content: target-counter(attr(href), page);
+  position: absolute;
+  right: 0;
+  text-align: right;
+}
+
+.fundingnote p {
+  margin: 0;
+}

@@ -1,0 +1,39 @@
+<article class="toc">
+  <div style="margin-top: 16px; font-size: 13pt">
+    Delaware Valley Regional Planning Commission
+  </div>
+  <div style="font-size: 13pt">
+    Fiscal Year 2026 | Unified Planning Work Program
+  </div>
+  <div style="margin-top: 16px; font-size: 24pt; font-weight: bold">
+    Table of Contents
+  </div>
+  <div style="font-size: 24pt; margin-bottom: 16px">
+    Chapter {{items[0].chapterno}}{{items[0].subsection}}: {{ chapter }}
+  </div>
+  <div>
+    {% for project in items %}
+    <div
+      style="display: flex; border-bottom: 1px solid #d7d7d7; line-height: 1"
+    >
+      <div style="width: 15%; line-height: 1; margin-top: 2px">
+        {{project.proid}}
+      </div>
+      <a
+        href="#{{project.proid}}"
+        style="
+          display: block;
+          text-decoration: none;
+          color: inherit;
+          width: 85%;
+          line-height: 1;
+          margin-top: 2px;
+        "
+      >
+        {{project.proname}}
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</article>
+<article class="blank"></article>
