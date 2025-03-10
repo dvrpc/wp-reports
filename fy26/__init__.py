@@ -17,17 +17,23 @@ async def index(request: Request):
 @bp.get("/project/<project_id:str>")
 async def project(request: Request, project_id):
     result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/projects?proid={project_id}")
-    result["items"][0]["funding_details"] = json.loads(
-        result["items"][0]["funding_details"])
-    result["items"][0]["lrpimages"] = json.loads(
-        result["items"][0]["lrpimages"])
-    csstemplate = await render("fy26/styles.css", context=result)
+    if not result:
+        return text(f"Project {project_id} database request failed")
+    if result["items"] == []:
+        return text(f"Project {project_id} not found")
+    csstemplate = await render("fy26/styles.css", context={"pageno": 1})
     resultcss = result.copy()
     resultcss["css"] = csstemplate.body.decode()
     pretemplate = await render("fy26/pre.html", context=resultcss)
-    template = await render("fy26/project.html", context=result)
+    template = ""
+    for item in result["items"]:
+        item["funding_details"] = json.loads(
+            item["funding_details"])
+        item["lrpimages"] = json.loads(
+            item["lrpimages"]) if item["lrpimages"] else []
+        template += (await render("fy26/project.html", context=item)).body.decode()
     posttemplate = await render("fy26/post.html", context=result)
-    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template.body.decode() + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
     return HTTPResponse(body=submission, content_type="application/pdf")
 
 
