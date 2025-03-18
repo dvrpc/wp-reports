@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from aiohttp import FormData
 from sanic import Blueprint, HTTPResponse, Request, text
@@ -42,9 +43,31 @@ async def chapter(request: Request, chapter_id):
     return text(f"Chapter {chapter_id}")
 
 
-@bp.get("/monthlyreport/:month")
-async def monthlyreport(request: Request, month):
-    return text(f"Monthly report for {month}")
+@bp.get("/monthlyreport/<mon:path>")
+async def monthlyreport(request: Request, mon):
+    pageno = request.args.get("page", "1")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/monthlyReports?repMonth={mon}")
+    if not result:
+        return text(f"Monthly Report {mon} not found")
+    if result["items"] == []:
+        return text(f"No projects found in monthly report {mon}")
+    month = datetime.strptime(mon, '%m/%d/%Y').strftime('%B')
+    year = datetime.strptime(mon, '%m/%d/%Y').strftime('%Y')
+    csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": f"FY2025 {month} Progress Report"})
+    result["month"] = month
+    result["yr"] = year
+    resultcss = result.copy()
+    resultcss["css"] = csstemplate.body.decode()
+    pretemplate = await render("fy26/pre.html", context=resultcss)
+    toctemplate = await render("fy26/monthlyreport_cover.html", context=result)
+    template = ""
+    for item in result["items"]:
+        item["month"] = month
+        item["year"] = year
+        template += (await render("fy26/monthlyreport_project.html", context=item)).body.decode()
+    posttemplate = await render("fy26/post.html", context=result)
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + toctemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    return HTTPResponse(body=submission, content_type="application/pdf")
 
 
 @bp.get("/semiannualreport/")

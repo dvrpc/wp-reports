@@ -88,8 +88,21 @@ article {
   break-after: always;
 }
 
-article:last-of-type {
+article:last-child {
   break-after: auto;
+}
+
+section {
+  width: 100%;
+  font-size: 11pt;
+  font-family: Calibri;
+  line-height: 1.1;
+  padding-bottom: 16px;
+  break-inside: avoid ;
+}
+
+section:last-of-type {
+  border-bottom: none;
 }
 
 .blank {
@@ -177,13 +190,22 @@ h3 {
   border-bottom: 2px solid black;
 }
 
-h3 > * {
+h3 > *,
+.h-list > * {
   float: left;
 }
 
-h3 > strong {
+h3 > strong,
+.h-list > :first-child {
   clear: left;
   width: 25%;
+}
+
+.h-list:after {
+  content: '';
+  display: table;
+  clear:both;
+  height: 1rem;
 }
 
 h4 {
