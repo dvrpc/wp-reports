@@ -32,6 +32,7 @@ async def project(request: Request, project_id):
             item["funding_details"])
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
+        item["yr"] = yr
         template += (await render("fy26/project.html", context=item)).body.decode()
     posttemplate = await render("fy26/post.html", context=result)
     submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))

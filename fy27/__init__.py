@@ -6,8 +6,8 @@ from sanic_ext import render
 
 from utils import fetch_file, fetch_json
 
-yr = "26"
-bp = Blueprint("fy26", url_prefix=f"/{yr}")
+yr = "WORKPROGRAM27"
+bp = Blueprint("fy27", url_prefix="/27")
 
 
 @bp.get("/")
@@ -17,7 +17,8 @@ async def index(request: Request):
 
 @bp.get("/project/<project_id:str>")
 async def project(request: Request, project_id):
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/projects?proid={project_id}")
+    year = "27"
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/projects?proid={project_id}")
     if not result:
         return text(f"Project {project_id} database request failed")
     if result["items"] == []:
@@ -32,6 +33,7 @@ async def project(request: Request, project_id):
             item["funding_details"])
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
+        item["yr"] = year
         template += (await render("fy26/project.html", context=item)).body.decode()
     posttemplate = await render("fy26/post.html", context=result)
     submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
@@ -51,7 +53,7 @@ async def chapter(request: Request, chapter_id):
                "5B": "New Jersey CRRSAA-funded Projects",
                "6": "Continuing Projects",
                "": ""}[chapter_id.upper()]
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}&showlive=T")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}&showlive=T")
     if not result:
         return text(f"Chapter {chapter_id} not found")
     if result["items"] == []:
@@ -68,7 +70,6 @@ async def chapter(request: Request, chapter_id):
             item["funding_details"])
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
-        item["yr"] = yr
         template += (await render("fy26/project.html", context=item)).body.decode()
     posttemplate = await render("fy26/post.html", context=result)
     submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + toctemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
@@ -78,7 +79,7 @@ async def chapter(request: Request, chapter_id):
 @bp.get("/monthlyreport/<mon:path>")
 async def monthlyreport(request: Request, mon):
     pageno = request.args.get("page", "1")
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/monthlyReports?repMonth={mon}")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/monthlyReports?repMonth={mon}")
     if not result:
         return text(f"Monthly Report {mon} not found")
     if result["items"] == []:
