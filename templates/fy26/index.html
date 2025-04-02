@@ -4,10 +4,68 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Generate Work Program Report</title>
+    <style>
+      body {
+        font-family: Calibri, sans-serif;
+        background-color: #f4f4f4;
+        max-width: 80ch;
+        color: #333;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+    </style>
   </head>
   <body>
-    <h1>My First Heading</h1>
-    <p>My first paragraph.</p>
+    <h1>Generate Work Program Report</h1>
+    <form id="chapterForm">
+      <label>Fiscal Year</label>
+      <input type="text" name="fy" id="fy" value="{{yr}}" />
+      <label for="chapter">Chapter</label>
+      <select name="chapter" id="chapter">
+        <option value="2a">2A: DVRPC Program Area Descriptions</option>
+        <option value="2b">2B: DVRPC Project Descriptions</option>
+        <option value="3a">
+          3A: PA Supportive Regional Highway Planning Program (SRHPP)
+        </option>
+        <option value="3b">
+          3B: NJ Supportive Regional Highway Planning Program (SRHPP)
+        </option>
+        <option value="4a">4A: PA Transit Support Program (TSP)</option>
+        <option value="4b">4B: NJ Transit Support Program (TSP)</option>
+        <option value="5a">5A: Other Member Government Projects</option>
+        <option value="5b">5B: New Jersey CRRSAA-funded Projects</option>
+        <option value="6">6: Continuing Projects</option>
+      </select>
+      <label for="pageno">Starting Page Number</label>
+      <input type="number" name="pageno" id="pageno" value="1" min="1" />
+      <label for="table">Table</label>
+      <input type="text" name="table" id="table" placeholder="Table x: Title" />
+      <input type="submit" value="Submit" />
+    </form>
+    <script>
+      function submitForm(event) {
+        event.preventDefault();
+        const fy = document.getElementById("fy").value;
+        const chapter = document.getElementById("chapter").value;
+        const pageno = document.getElementById("pageno").value;
+        const table = document.getElementById("table").value;
+
+        // Redirect to the new URL with query parameters
+        window.location.href = `/${window.location.pathname
+          .split("/")
+          .slice(0, -1)
+          .join("")}/${fy}/chapter/${chapter}?pageno=${pageno}&table=${table}`;
+      }
+
+      document
+        .getElementById("chapterForm")
+        .addEventListener("submit", submitForm);
+    </script>
   </body>
 </html>

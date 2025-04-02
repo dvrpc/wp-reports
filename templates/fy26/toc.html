@@ -1,7 +1,7 @@
 <article class="toc">
   <p class="toc-header-dvrpc">Delaware Valley Regional Planning Commission</p>
   <p class="toc-header-upwp">
-    Fiscal Year 2026 | Unified Planning Work Program
+    Fiscal Year 20{{yr}} | Unified Planning Work Program
   </p>
   <p class="toc-header-toc">Table of Contents</p>
   <h2>Chapter {{items[0].chapterno}}{{items[0].subsection}}: {{ chapter }}</h2>
@@ -13,5 +13,13 @@
     </li>
     {% endfor %}
   </ul>
+  {% if table %}
+  <h2 class="toc-header-table">Table</h2>
+  <ul>
+    <li class="toc-row table">
+      <a href="#{{table}}">{{table}}</a>
+    </li>
+  </ul>
+  {% endif %}
 </article>
-<article class="blank"></article>
+<article id="{{table}}" class="blank"></article>

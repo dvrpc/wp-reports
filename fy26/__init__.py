@@ -12,7 +12,7 @@ bp = Blueprint("fy26", url_prefix=f"/{yr}")
 
 @bp.get("/")
 async def index(request: Request):
-    return await render("fy26/index.html")
+    return await render("fy26/index.html", context={"yr": yr})
 
 
 @bp.get("/project/<project_id:str>")
@@ -80,7 +80,9 @@ async def chapter(request: Request, chapter_id):
         return text(f"Chapter {chapter_id} not found")
     if result["items"] == []:
         return text(f"No projects found in chapter {chapter_id}")
+    result["yr"] = yr
     result["chapter"] = chapter
+    result["table"] = request.args.get("table")
     csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": chapter})
     resultcss = result.copy()
     resultcss["css"] = csstemplate.body.decode()

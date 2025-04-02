@@ -6,19 +6,19 @@ from sanic_ext import render
 
 from utils import fetch_file, fetch_json
 
-yr = "WORKPROGRAM27"
+yr = "27"
 bp = Blueprint("fy27", url_prefix="/27")
 
 
 @bp.get("/")
 async def index(request: Request):
-    return await render("fy26/index.html")
+    return await render("fy26/index.html", context={"yr": yr})
 
 
 @bp.get("/project/<project_id:str>")
 async def project(request: Request, project_id):
     year = "27"
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/projects?proid={project_id}")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/WORKPROGRAM27/workprogram/projects?proid={project_id}")
     if not result:
         return text(f"Project {project_id} database request failed")
     if result["items"] == []:
@@ -42,7 +42,7 @@ async def project(request: Request, project_id):
 
 @bp.get("/amendment/<amendment_id:str>")
 async def amendment(request: Request, amendment_id):
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/workprogram{yr}/workprogram/draftamendment?amendmentID={amendment_id}")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/WORKPROGRAM27/workprogram/draftamendment?amendmentID={amendment_id}")
     if not result:
         return text(f"Amendment {amendment_id} database request failed")
     if result["items"] == []:
@@ -77,12 +77,14 @@ async def chapter(request: Request, chapter_id):
                "5B": "New Jersey CRRSAA-funded Projects",
                "6": "Continuing Projects",
                "": ""}[chapter_id.upper()]
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}&showlive=T")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/WORKPROGRAM27/workprogram/projects?chapterno={chapter_id[0]}&subsection={chapter_id.ljust(2).upper()[1]}&showlive=T")
     if not result:
         return text(f"Chapter {chapter_id} not found")
     if result["items"] == []:
         return text(f"No projects found in chapter {chapter_id}")
+    result["yr"] = yr
     result["chapter"] = chapter
+    result["table"] = request.args.get("table")
     csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": chapter})
     resultcss = result.copy()
     resultcss["css"] = csstemplate.body.decode()
@@ -103,7 +105,7 @@ async def chapter(request: Request, chapter_id):
 @bp.get("/monthlyreport/<mon:path>")
 async def monthlyreport(request: Request, mon):
     pageno = request.args.get("page", "1")
-    result = await fetch_json(f"https://apps.dvrpc.org/ords/{yr}/workprogram/monthlyReports?repMonth={mon}")
+    result = await fetch_json(f"https://apps.dvrpc.org/ords/WORKPROGRAM27/workprogram/monthlyReports?repMonth={mon}")
     if not result:
         return text(f"Monthly Report {mon} not found")
     if result["items"] == []:

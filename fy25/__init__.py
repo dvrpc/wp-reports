@@ -12,7 +12,7 @@ bp = Blueprint("fy25", url_prefix="/25")
 
 @bp.get("/")
 async def index(request: Request):
-    return text("Hello World!")
+    return await render("fy26/index.html", context={"yr": yr})
 
 
 @bp.get("/project/<project_id:str>")
