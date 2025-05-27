@@ -24,7 +24,8 @@ async def project(request: Request, project_id):
         return text(f"Project {project_id} not found")
     csstemplate = await render("fy26/styles.css", context={"pageno": 1})
     resultcss = result.copy()
-    resultcss["css"] = csstemplate.body.decode()
+    resultcss["css"] = csstemplate.body.decode(
+    ) if csstemplate.body is not None else ""
     pretemplate = await render("fy26/pre.html", context=resultcss)
     template = ""
     for item in result["items"]:
@@ -32,9 +33,12 @@ async def project(request: Request, project_id):
             item["funding_details"])
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
-        template += (await render("fy26/project.html", context=item)).body.decode()
+        rendered = await render("fy26/project.html", context=item)
+        template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
-    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
+    posttemp = posttemplate.body.decode() if posttemplate.body is not None else ""
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemp + template + posttemp, "css": resultcss["css"]}))
     return HTTPResponse(body=submission, content_type="application/pdf")
 
 
@@ -47,7 +51,8 @@ async def amendment(request: Request, amendment_id):
         return text(f"Amendment {amendment_id} not found")
     csstemplate = await render("fy26/styles.css", context={"pageno": 1})
     resultcss = result.copy()
-    resultcss["css"] = csstemplate.body.decode()
+    resultcss["css"] = csstemplate.body.decode(
+    ) if csstemplate.body is not None else ""
     pretemplate = await render("fy26/pre.html", context=resultcss)
     template = ""
     for item in result["items"]:
@@ -56,9 +61,12 @@ async def amendment(request: Request, amendment_id):
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
         item["yr"] = yr
-        template += (await render("fy26/project.html", context=item)).body.decode()
+        rendered = await render("fy26/project.html", context=item)
+        template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
-    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
+    posttemp = posttemplate.body.decode() if posttemplate.body is not None else ""
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemp + template + posttemp, "css": resultcss["css"]}))
     return HTTPResponse(body=submission, content_type="application/pdf")
 
 
@@ -85,7 +93,8 @@ async def chapter(request: Request, chapter_id):
     result["table"] = request.args.get("table")
     csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": chapter})
     resultcss = result.copy()
-    resultcss["css"] = csstemplate.body.decode()
+    resultcss["css"] = csstemplate.body.decode(
+    ) if csstemplate.body is not None else ""
     pretemplate = await render("fy26/pre.html", context=resultcss)
     toctemplate = await render("fy26/toc.html", context=result)
     template = ""
@@ -95,9 +104,13 @@ async def chapter(request: Request, chapter_id):
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
         item["yr"] = yr
-        template += (await render("fy26/project.html", context=item)).body.decode()
+        rendered = await render("fy26/project.html", context=item)
+        template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
-    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + toctemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
+    toctemp = toctemplate.body.decode() if toctemplate.body is not None else ""
+    posttemp = posttemplate.body.decode() if posttemplate.body is not None else ""
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemp + toctemp + template + posttemp, "css": resultcss["css"]}))
     return HTTPResponse(body=submission, content_type="application/pdf")
 
 
@@ -115,16 +128,21 @@ async def monthlyreport(request: Request, mon):
     result["month"] = month
     result["yr"] = year
     resultcss = result.copy()
-    resultcss["css"] = csstemplate.body.decode()
+    resultcss["css"] = csstemplate.body.decode(
+    ) if csstemplate.body is not None else ""
     pretemplate = await render("fy26/pre.html", context=resultcss)
     toctemplate = await render("fy26/monthlyreport_cover.html", context=result)
     template = ""
     for item in result["items"]:
         item["month"] = month
         item["year"] = year
-        template += (await render("fy26/monthlyreport_project.html", context=item)).body.decode()
+        rendered = await render("fy26/monthlyreport_project.html", context=item)
+        template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
-    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemplate.body.decode() + toctemplate.body.decode() + template + posttemplate.body.decode(), "css": csstemplate.body.decode()}))
+    pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
+    toctemp = toctemplate.body.decode() if toctemplate.body is not None else ""
+    posttemp = posttemplate.body.decode() if posttemplate.body is not None else ""
+    submission = await fetch_file("https://cloud.dvrpc.org/api/pdf_gen/pdf", method="POST", data=FormData({"html": pretemp + toctemp + template + posttemp, "css": resultcss["css"]}))
     return HTTPResponse(body=submission, content_type="application/pdf")
 
 
