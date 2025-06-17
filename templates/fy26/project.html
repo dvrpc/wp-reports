@@ -991,14 +991,14 @@
     d="M8.49,10.72c-.05,0-.11-.01-.11-.12v-.51c-.68-.28-1.03-.75-1.1-1.49,0-.08.03-.12.11-.14l.82-.19.11.09c.03.32.14.65.65.65.32,0,.47-.12.55-.21.07-.1.1-.22.08-.33-.07-.29-.41-.41-.81-.55-.62-.21-1.39-.48-1.41-1.49,0-.11-.02-1.11.99-1.39l.08-.58c0-.1.03-.13.13-.13h.87c.1,0,.13.03.13.13v.5c.84.32,1.05.94,1.1,1.42,0,.08-.01.12-.1.14l-.82.2-.12-.1c-.08-.37-.3-.57-.65-.57-.19,0-.32.07-.41.18-.07.09-.09.2-.06.3.06.27.38.39.79.54.66.24,1.48.54,1.5,1.57,0,.01,0,1.11-1.2,1.4l-.08.58c0,.1-.03.13-.13.13h-.89Z"
   /></svg
 >'} %}
-<article id="{{proid}}">
+<article id="{{ proid }}">
   <h4 class="header">
     Delaware Valley Regional Planning Commission | FY 20{{ yr }} | Unified
     Planning Work Program
   </h4>
   <h3>
-    <strong>{{proid}}&nbsp;</strong>
-    <span>{{proname}}</span>
+    <strong>{{ proid }}&nbsp;</strong>
+    <span>{{ proname }}</span>
   </h3>
   <dl>
     <dt>Responsible Agency:</dt>
@@ -1011,22 +1011,22 @@
     <dt>Supports LRP Goals:</dt>
     <dd style="width: 75%">
       <div style="display: flex">
-        {% for _, src in lrpimages[0].items() %} {{images[src]|safe}} {% endfor
-        %}
+        {% for _, src in lrpimages[0].items() %} {{ images[src]|safe }} {%
+        endfor %}
       </div>
     </dd>
     {% endif %}
   </dl>
   <h4 style="clear: both; margin-top: -8px">Goals:</h4>
-  {{goals|safe}}
+  {{ goals|safe }}
   <h4>Description:</h4>
-  {{description|safe}}
+  {{ description|safe }}
   <h4>Tasks:</h4>
-  {{tasks|safe}}
+  {{ tasks|safe }}
   <h4>Products:</h4>
-  {{products|safe}}
+  {{ products|safe }}
   <h4>Beneficiaries:</h4>
-  {{beneficiaries|safe}}
+  {{ beneficiaries|safe }}
   <div style="break-inside: avoid">
     <h4>Cost and Funding:</h4>
     <table>
@@ -1043,12 +1043,14 @@
       <tbody>
         {% for row in funding_details|sort(attribute="fy") %}
         <tr>
-          <td>{{row.fy}}</td>
-          <td>{{"${:,.0f}".format(row.total) if row.total}}</td>
-          <td>{{"${:,.0f}".format(row.highway) if row.highway}}</td>
-          <td>{{"${:,.0f}".format(row.transit) if row.transit}}</td>
-          <td>{{"${:,.0f}".format(row.comprehensive) if row.comprehensive}}</td>
-          <td>{{"${:,.0f}".format(row.other) if row.other}}</td>
+          <td>{{ row.fy }}</td>
+          <td>{{ "${:,.0f}".format(row.total) if row.total }}</td>
+          <td>{{ "${:,.0f}".format(row.highway) if row.highway }}</td>
+          <td>{{ "${:,.0f}".format(row.transit) if row.transit }}</td>
+          <td>
+            {{ "${:,.0f}".format(row.comprehensive) if row.comprehensive }}
+          </td>
+          <td>{{ "${:,.0f}".format(row.other) if row.other }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -1057,7 +1059,7 @@
     <h4 style="margin-top: 1px; font-weight: normal">
       FY2026 Other Funding Details:
     </h4>
-    <div class="fundingnote">{{fundingnote|safe}}</div>
+    <div class="fundingnote">{{ fundingnote|safe }}</div>
   </div>
   {% endif %}
 </article>
