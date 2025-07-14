@@ -33,6 +33,7 @@ async def project(request: Request, project_id):
             item["funding_details"])
         item["lrpimages"] = json.loads(
             item["lrpimages"]) if item["lrpimages"] else []
+        item["yr"] = yr
         rendered = await render("fy26/project.html", context=item)
         template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
