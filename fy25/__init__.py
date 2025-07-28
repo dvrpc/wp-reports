@@ -137,7 +137,7 @@ async def monthlyreport(request: Request, mon):
     for item in result["items"]:
         item["month"] = month
         item["year"] = year
-        rendered = await render("fy26/project.html", context=item)
+        rendered = await render("fy26/monthlyreport_project.html", context=item)
         template += rendered.body.decode() if rendered.body is not None else ""
     posttemplate = await render("fy26/post.html", context=result)
     pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
