@@ -270,6 +270,15 @@ h4 + div {
   margin-top: 4px;
 }
 
+
+i,em {
+  font-style: italic;
+}
+
+b, strong{ 
+  font-weight: bold;
+}
+
 ol {
   margin-top: 0;
 }
