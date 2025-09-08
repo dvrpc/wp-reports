@@ -1042,7 +1042,7 @@
       </thead>
       <tbody>
         {% for row in funding_details|sort(attribute="fy") %}
-        <tr>
+        <tr{% if highlightfund == 'Funding Table Only' or highlightfund == 'Both Funding Table and Notes' %} style="background-color:#ff0;"{% endif %}>
           <td>{{ row.fy }}</td>
           <td>{{ "${:,.0f}".format(row.total) if row.total }}</td>
           <td>{{ "${:,.0f}".format(row.highway) if row.highway }}</td>
@@ -1059,7 +1059,11 @@
     <h4 style="margin-top: 1px; font-weight: normal">
       FY2026 Other Funding Details:
     </h4>
-    <div class="fundingnote">{{ fundingnote|safe }}</div>
+    {% if highlightfund == 'Funding Notes Only' or highlightfund == 'Both Funding Table and Notes' %}
+      <div class="fundingnote"><mark>{{ fundingnote|safe }}</mark></div>
+    {% else %}
+      <div class="fundingnote">{{ fundingnote|safe }}</div>
+    {% endif %}
   </div>
   {% endif %}
 </article>
