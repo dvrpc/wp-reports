@@ -125,7 +125,7 @@ async def monthlyreport(request: Request, mon):
         return text(f"No projects found in monthly report {mon}")
     month = datetime.strptime(mon, '%m/%d/%Y').strftime('%B')
     year = datetime.strptime(mon, '%m/%d/%Y').strftime('%Y')
-    csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": f"FY2025 {month} Progress Report"})
+    csstemplate = await render("fy26/styles.css", context={"pageno": pageno, "chapter": f"FY20{yr} {month} Progress Report"})
     result["month"] = month
     result["yr"] = year
     resultcss = result.copy()
