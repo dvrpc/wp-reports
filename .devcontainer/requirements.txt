@@ -1,6 +1,6 @@
-aiohttp
-black
-Jinja2
-pycodestyle
-pylint
+aiohttp==3.10.*
+black==24.8.*
+Jinja2==3.1.*
+pycodestyle==2.12.*
+pylint==3.2.*
 sanic[ext]==24.6.0
