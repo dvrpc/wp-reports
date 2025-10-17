@@ -992,14 +992,14 @@
   /></svg
 >'} %}
 <article id="{{ proid }}">
-  <h4 class="header">
+  <div class="header">
     Delaware Valley Regional Planning Commission | FY 20{{ yr }} | Unified
     Planning Work Program
-  </h4>
-  <h3>
+  </div>
+  <h2>
     <strong>{{ proid }}&nbsp;</strong>
     <span>{{ proname }}</span>
-  </h3>
+  </h2>
   <dl>
     <dt>Responsible Agency:</dt>
     <dd><strong>{{ respagency }}</strong></dd>
@@ -1017,19 +1017,19 @@
     </dd>
     {% endif %}
   </dl>
-  <h4 style="clear: both; margin-top: -8px">Goals:</h4>
+  <h3 style="clear: both; margin-top: -8px">Goals:</h4>
   {{ goals|safe }}
-  <h4>Description:</h4>
+  <h3>Description:</h3>
   {{ description|safe }}
-  <h4>Tasks:</h4>
+  <h3>Tasks:</h3>
   {{ tasks|safe }}
-  <h4>Products:</h4>
+  <h3>Products:</h3>
   {{ products|safe }}
-  <h4>Beneficiaries:</h4>
+  <h3>Beneficiaries:</h3>
   {{ beneficiaries|safe }}
   <div style="break-inside: avoid">
-    <h4>Cost and Funding:</h4>
-    <table>
+    <h3>Cost and Funding:</h3>
+    <table summary="List of funding sources by fiscal year">
       <thead>
         <tr>
           <th>FY</th>
