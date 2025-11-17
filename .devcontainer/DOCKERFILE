@@ -5,7 +5,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt update \
     && apt install -y --no-install-recommends sudo git bash curl wget ca-certificates gcc libpq-dev \
-    libcairo2 libcairo2-dev libpangocairo-1.0-0 weasyprint \
     && apt clean \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*

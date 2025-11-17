@@ -1,0 +1,78 @@
+<article id="{{ proid }}">
+  <div class="header">
+    Delaware Valley Regional Planning Commission | FY 20{{ yr }} | Unified
+    Planning Work Program
+  </div>
+  <h2>
+    <span>{{ proid }}</span>
+    <span>{{ proname }}</span>
+  </h2>
+  <dl style="margin: 0;">
+    <dt>Responsible Agency:</dt>
+    <dd><strong>{{ respagency }}</strong></dd>
+    <dt>Program Coordinator:</dt>
+    <dd>{{ coordinator }}</dd>
+    <dt>Manager(s):</dt>
+    <dd>{{ managers }}</dd>
+  </dl>
+  {% if lrp_goals %}
+  <h3 style="margin: 0">Supports LRP Goals:</h3>
+  <div class="goals">
+    <ul style="margin-top: 0">
+      {% for goal in lrp_goals|sort(attribute="id") %}<li>{{ goal.itemname|safe }}</li>{%
+      endfor %}
+      </ul>
+    </div>
+  {% endif %}
+  <h3>Project Goals:</h4>
+  {{ goals|safe }}
+  <h3>Description:</h3>
+  {{ description|safe }}
+  <h3>Tasks:</h3>
+  {{ tasks|safe }}
+  <h3>Products:</h3>
+  {{ products|safe }}
+  <h3>Beneficiaries:</h3>
+  {{ beneficiaries|safe }}
+  <div style="break-inside: avoid">
+    {% if funding_details|length > 0 %}
+    <h3>Cost and Funding:</h3>
+    <table summary="List of funding sources by fiscal year">
+      <thead>
+        <tr>
+          <th>FY</th>
+          <th>Total</th>
+          <th>Highway PL Program</th>
+          <th>Transit PL Program</th>
+          <th>Comprehensive Planning</th>
+          <th>Other</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in funding_details|sort(attribute="fy") %}
+        <tr{% if highlightfund == 'Funding Table Only' or highlightfund == 'Both Funding Table and Notes' %} style="background-color:#ff0;"{% endif %}>
+          <td>{{ row.fy }}</td>
+          <td>{{ "${:,.0f}".format(row.total) if row.total }}</td>
+          <td>{{ "${:,.0f}".format(row.highway) if row.highway }}</td>
+          <td>{{ "${:,.0f}".format(row.transit) if row.transit }}</td>
+          <td>
+            {{ "${:,.0f}".format(row.comprehensive) if row.comprehensive }}
+          </td>
+          <td>{{ "${:,.0f}".format(row.other) if row.other }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
+    {% if fundingnote %}
+    <h4 style="margin-top: 1px; font-weight: normal">
+      FY 20{{ yr }} Other Funding Details:
+    </h4>
+    {% if highlightfund == 'Funding Notes Only' or highlightfund == 'Both Funding Table and Notes' %}
+      <div class="fundingnote"><mark>{{ fundingnote|safe }}</mark></div>
+    {% else %}
+      <div class="fundingnote">{{ fundingnote|safe }}</div>
+    {% endif %}
+  </div>
+  {% endif %}
+</article>

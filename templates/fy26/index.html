@@ -57,10 +57,7 @@
         const table = document.getElementById("table").value;
 
         // Redirect to the new URL with query parameters
-        window.location.href = `/${window.location.pathname
-          .split("/")
-          .slice(0, -1)
-          .join("")}/${fy}/chapter/${chapter}?page=${pageno}&table=${table}`;
+        window.location.href = `/wp-reports/${fy}/chapter/${chapter}?page=${pageno}&table=${table}`;
       }
 
       document

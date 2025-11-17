@@ -1009,7 +1009,7 @@
     <dd>{{ managers }}</dd>
     {% if lrpimages %}
     <dt>Supports LRP Goals:</dt>
-    <dd style="width: 75%">
+    <dd style="width: 70%">
       <div style="display: flex">
         {% for _, src in lrpimages[0].items() %} {{ images[src]|safe }} {%
         endfor %}
@@ -1017,7 +1017,7 @@
     </dd>
     {% endif %}
   </dl>
-  <h3 style="clear: both; margin-top: -8px">Goals:</h4>
+  <h3 style="clear: both; margin-top: -8px">Project Goals:</h4>
   {{ goals|safe }}
   <h3>Description:</h3>
   {{ description|safe }}

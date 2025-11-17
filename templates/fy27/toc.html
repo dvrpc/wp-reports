@@ -1,0 +1,27 @@
+<article class="toc">
+  <p class="toc-header-dvrpc">Delaware Valley Regional Planning Commission</p>
+  <p class="toc-header-upwp">
+    Fiscal Year 20{{ yr }} | Unified Planning Work Program
+  </p>
+  <p class="toc-header-toc">Table of Contents</p>
+  <h1>
+    Chapter {{ items[0].chapterno }}{{ items[0].subsection }}: {{ chapter }}
+  </h1>
+  <ul>
+    {% for project in items %}
+    <li class="toc-row">
+      <span class="toc-row-proid">{{ project.proid }}&nbsp;</span>
+      <a href="#{{ project.proid }}">{{ project.proname }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if table %}
+  <h2 class="toc-header-table">Table</h2>
+  <ul>
+    <li class="toc-row table">
+      <a href="#{{ table }}">{{ table }}</a>
+    </li>
+  </ul>
+  {% endif %}
+</article>
+<article id="{{ table }}" class="blank"></article>
