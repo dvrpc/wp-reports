@@ -112,7 +112,11 @@ async def chapter(request: Request, chapter_id):
     toctemplate = await render("fy27/toc.html", context=result)
     template = ""
     for item in result["items"]:
-        item["funding_details"] = json.loads(item["funding_details"]) if item["funding_details"] and isinstance(item["funding_details"], str) else []
+        item["funding_details"] = (
+            json.loads(item["funding_details"])
+            if item["funding_details"] and isinstance(item["funding_details"], str)
+            else []
+        )
         item["lrp_goals"] = json.loads(item["lrp_goals"]) if item["lrp_goals"] else []
         item["yr"] = yr
         rendered = await render("fy27/project.html", context=item)
@@ -175,9 +179,9 @@ async def monthlyreport(request: Request, mon):
 
 @bp.get("/semiannualreport")
 async def semiannualreport(request: Request):
-    return text(f"Semiannual report")
+    return text("Semiannual report")
 
 
 @bp.get("/annualreport")
 async def annualreport(request: Request):
-    return text(f"Annual report")
+    return text("Annual report")

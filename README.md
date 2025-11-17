@@ -1,9 +1,9 @@
 ## Commands
 
-| Task                  | Command                   |
-| --------------------- | ------------------------- |
-| Run in venv           | `uv run sanic server:app` |
-| Change python version | `uv python pin [version]` |
-| Format                | `uv run ruff format`      |
-| Lint                  | `uv run ruff check`       |
-| Add packages          | `uv add [package]`        |
+| Task                  | Command                                                                                                           |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| Run in venv           | `ve/bin/sanic server:app [--dev]`                                                                                 |
+| Change python version | Modify postCreateCommand in .devcontainer/devcontainer.json                                                       |
+| Format                | `ve/bin/ruff format`                                                                                              |
+| Lint                  | `ve/bin/ruff check`                                                                                               |
+| Add packages          | `uv pip install --python ve/bin/python [package_name] && uv pip freeze --python ve/bin/python > requirements.txt` |

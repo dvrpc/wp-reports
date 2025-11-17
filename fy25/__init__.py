@@ -174,9 +174,9 @@ async def monthlyreport(request: Request, mon):
 
 @bp.get("/semiannualreport/")
 async def semiannualreport(request: Request):
-    return text(f"Semiannual report")
+    return text("Semiannual report")
 
 
 @bp.get("/annualreport/")
 async def annualreport(request: Request):
-    return text(f"Annual report")
+    return text("Annual report")

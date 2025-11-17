@@ -4,9 +4,7 @@
     "dockerfile": "Dockerfile",
     "context": "."
   },
-  "runArgs": [
-    "--network=host"
-  ],
+  "postCreateCommand": "~/.local/bin/uv venv --clear --python 3.13 ve && ~/.local/bin/uv pip install --python ve/bin/python -r requirements.txt",
   "customizations": {
     "vscode": {
       "extensions": [
