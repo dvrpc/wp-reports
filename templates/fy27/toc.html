@@ -4,9 +4,9 @@
     Fiscal Year 20{{ yr }} | Unified Planning Work Program
   </p>
   <p class="toc-header-toc">Table of Contents</p>
-  <h1>
+  <h2>
     Chapter {{ items[0].chapterno }}{{ items[0].subsection }}: {{ chapter }}
-  </h1>
+  </h2>
   <ul>
     {% for project in items %}
     <li class="toc-row">
@@ -16,7 +16,7 @@
     {% endfor %}
   </ul>
   {% if table %}
-  <h2 class="toc-header-table">Table</h2>
+  <h3 class="toc-header-table">Table</h3>
   <ul>
     <li class="toc-row table">
       <a href="#{{ table }}">{{ table }}</a>

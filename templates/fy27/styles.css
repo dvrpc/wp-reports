@@ -125,12 +125,16 @@ svg {
   vertical-align: top;
 }
 
-h1 {
+.toc h2 {
   margin-top: 0;
   margin-bottom: 16px;
   font-weight: normal;
   font-size: 22pt;
   font-family: "Inclusive Sans";
+  box-sizing: initial;
+  width: initial;
+  padding-left: 0;
+  border-bottom: none;
 }
 
 .toc-header-dvrpc {
@@ -158,6 +162,7 @@ h1 {
 .toc-header-table {
   margin: 0;
   margin-top: 32px;
+  padding: 0;
   font-weight: bold;
   font-size: 14pt;
   font-family: "Inclusive Sans";
