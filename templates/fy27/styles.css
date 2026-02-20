@@ -210,12 +210,20 @@ h1 {
 }
 
 h2 {
+  box-sizing: border-box;
   width: 100%;
   margin: 0 0 4px 0;
+  padding-left: 26%;
   font-size: 12pt;
   border-bottom: 1.5px solid black;
   font-family: "Inclusive Sans";
   font-weight: bold;
+  position: relative;
+}
+
+h2 span {
+  position: absolute;
+  left: 0;
 }
 
 h3 {
@@ -250,12 +258,12 @@ h3+* {
   float:left;
 }
 
-.inline + p,
-h2>span {
+.inline + p {
   margin: 0;
   padding: 0;
   width: 74%;
   float: right;
+  font-size: 11pt;
 }
 
 .goals {
@@ -273,7 +281,6 @@ h2>span {
 .heading + div {
   margin-top: 4px;
 }
-
 
 i,em {
   font-style: italic;
@@ -319,6 +326,12 @@ th {
 }
 
 .fundingnote {
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+.fundingnote + p,
+.fundingnote + mark > p {
   margin: 0;
 }
 

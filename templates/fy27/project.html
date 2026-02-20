@@ -3,7 +3,7 @@
     Planning Work Program
   </p>
   <h2 id="{{ proid }}">
-    {{ proid|safe }}<span>{{ proname|safe }}</span>
+    <span>{{ proid|safe }}</span>{{ proname|safe }}
   </h2>
   <h3 class="inline">Responsible Agency:</h3>
   <p><strong>{{ respagency }}</strong></p>
@@ -58,12 +58,12 @@
   </table>
   {% endif %}
   {% if fundingnote %}
-  <p style="margin-top: 1px; margin-bottom: 0;">
+  <p class="fundingnote">
     FY 20{{ yr }} Other Funding Details:
   </p>
   {% if highlightfund == 'Funding Notes Only' or highlightfund == 'Both Funding Table and Notes' %}
-    <p class="fundingnote"><mark>{{ fundingnote|safe }}</mark></p>
+    <mark>{{ fundingnote|safe }}</mark>
   {% else %}
-    <p class="fundingnote">{{ fundingnote|safe }}</p>
+    {{ fundingnote|safe }}
   {% endif %}
   {% endif %}
