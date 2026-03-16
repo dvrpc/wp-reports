@@ -348,6 +348,20 @@ th {
   border-top: 1px solid black;
 }
 
-.fundingnote p {
+.fundingnote {
+  margin-top: 1px;
+  margin-bottom: 0;
+}
+
+.fundingnote + p,
+.fundingnote + mark > p {
   margin: 0;
+}
+
+.fundingnote + mark > p {
+  display: inline;
+}
+
+a[href] {
+  color: inherit !important;
 }

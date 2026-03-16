@@ -358,6 +358,10 @@ th {
   margin: 0;
 }
 
+.fundingnote + mark > p {
+  display: inline;
+}
+
 a[href] {
   color: inherit !important;
 }
