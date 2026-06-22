@@ -91,6 +91,7 @@ async def chapter(request: Request, chapter_id):
         "5A": "Other Member Government Projects",
         "5B": "New Jersey CRRSAA-funded Projects",
         "6": "Continuing Projects",
+        "9A": "Appendix",
         "": "",
     }[chapter_id.upper()]
     result = await fetch_json(
@@ -103,8 +104,11 @@ async def chapter(request: Request, chapter_id):
     result["yr"] = yr
     result["chapter"] = chapter
     result["table"] = request.args.get("table")
+    appendix = ""
+    if chapter_id.upper() == "9A":
+        appendix = "C-"
     csstemplate = await render(
-        "fy27/styles.css", context={"pageno": pageno, "chapter": chapter}
+        "fy27/styles.css", context={"appendix": appendix, "pageno": pageno, "chapter": chapter}
     )
     resultcss = result.copy()
     resultcss["css"] = csstemplate.body.decode() if csstemplate.body is not None else ""
@@ -125,11 +129,14 @@ async def chapter(request: Request, chapter_id):
     pretemp = pretemplate.body.decode() if pretemplate.body is not None else ""
     toctemp = toctemplate.body.decode() if toctemplate.body is not None else ""
     posttemp = posttemplate.body.decode() if posttemplate.body is not None else ""
+    assembled = pretemp + toctemp + template + posttemp
+    if chapter_id.upper() == "9A":
+        assembled = pretemp + template + posttemp
     submission = await fetch_file(
         "https://cloud.dvrpc.org/api/pdf_gen/pdf",
         method="POST",
         data=FormData(
-            {"html": pretemp + toctemp + template + posttemp, "css": resultcss["css"]}
+            {"html": assembled, "css": resultcss["css"]}
         ),
     )
     return HTTPResponse(body=submission, content_type="application/pdf")
