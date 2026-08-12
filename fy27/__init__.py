@@ -155,11 +155,11 @@ async def monthlyreport(request: Request, mon):
     month = datetime.strptime(mon, "%m/%d/%Y").strftime("%B")
     year = datetime.strptime(mon, "%m/%d/%Y").strftime("%Y")
     csstemplate = await render(
-        "fy26/styles.css",
+        "fy27/styles.css",
         context={"pageno": pageno, "chapter": f"FY20{yr} {month} Progress Report"},
     )
     result["month"] = month
-    result["yr"] = year
+    result["yr"] = yr
     resultcss = result.copy()
     resultcss["css"] = csstemplate.body.decode() if csstemplate.body is not None else ""
     pretemplate = await render("fy26/pre.html", context=resultcss)

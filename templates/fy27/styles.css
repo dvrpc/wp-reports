@@ -118,6 +118,7 @@ svg {
 
 .toc {
   page: toc;
+  page-break-after: always;
 }
 
 #pageFooter svg {
