@@ -1,0 +1,69 @@
+  <p style="break-before: always;" class="header">
+    Delaware Valley Regional Planning Commission | FY 20{{ yr }} | Unified
+    Planning Work Program
+  </p>
+  <h2 id="{{ proid }}">
+    <span>{{ proid|safe }}</span>{{ proname|safe }}
+  </h2>
+  <h3 class="inline">Responsible Agency:</h3>
+  <p><strong>{{ respagency }}</strong></p>
+  <h3 class="inline">Program Coordinator:</h3>
+  <p>{{ coordinator }}</p>
+  <h3 class="inline">Manager(s):</h3>
+  <p>{{ managers }}</p>
+  {% if lrp_goals %}
+  <h3 class="heading" style="margin: 0">Supports LRP Goals:</h3>
+  <ul style="margin-top: 0" class="goals">
+    {% for goal in lrp_goals|sort(attribute="id") %}<li>{{ goal.itemname|safe }}</li>{%
+    endfor %}
+  </ul>
+  {% endif %}
+  <h3 class="heading">Project Goals:</h3>
+  {{ goals|safe }}
+  <h3 class="heading">Description:</h3>
+  {{ description|safe }}
+  <h3 class="heading">Tasks:</h3>
+  {{ tasks|safe }}
+  <h3 class="heading">Products:</h3>
+  {{ products|safe }}
+  <h3 class="heading">Beneficiaries:</h3>
+  {{ beneficiaries|safe }}
+  {% if funding_details|length > 0 %}
+  <h3 class="heading">Cost and Funding:</h3>
+  <table style="break-inside: avoid;" summary="List of funding sources by fiscal year">
+    <thead>
+      <tr>
+        <th scope="col">FY</th>
+        <th scope="col">Total</th>
+        <th scope="col">Highway PL Program</th>
+        <th scope="col">Transit PL Program</th>
+        <th scope="col">PA TIP</th>
+        <th scope="col">NJ TIP</th>
+        <th scope="col">Other</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in funding_details|sort(attribute="fy") %}
+      <tr{% if highlightfund == 'Funding Table Only' or highlightfund == 'Both Funding Table and Notes' %} style="background-color:#ff0;"{% endif %}>
+        <th scope="row" style="font-weight: 400">{{ row.fy }}</th>
+        <td>{{ "${:,.0f}".format(row.total) if row.total else ' ' }}</td>
+        <td>{{ "${:,.0f}".format(row.highway) if row.highway else ' ' }}</td>
+        <td>{{ "${:,.0f}".format(row.transit) if row.transit else ' ' }}</td>
+        <td>{{ "${:,.0f}".format(row.patip) if row.patip else ' ' }}</td>
+        <td>{{ "${:,.0f}".format(row.njtip) if row.njtip else ' ' }}</td>
+        <td>{{ "${:,.0f}".format(row.other) if row.other else ' ' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% endif %}
+  {% if fundingnote %}
+  <p class="fundingnote">
+    FY 20{{ yr }} Other Funding Details:
+  </p>
+  {% if highlightfund == 'Funding Notes Only' or highlightfund == 'Both Funding Table and Notes' %}
+    <mark>{{ fundingnote|safe }}</mark>
+  {% else %}
+    {{ fundingnote|safe }}
+  {% endif %}
+  {% endif %}
