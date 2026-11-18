@@ -224,12 +224,14 @@ h2 {
   border-bottom: 1.5px solid black;
   font-family: "Inclusive Sans";
   font-weight: bold;
-  position: relative;
 }
 
-h2 span {
-  position: absolute;
-  left: 0;
+.proid {
+  float: left;
+  width: 25%;
+  font-size: 12pt;
+  font-family: "Inclusive Sans";
+  font-weight: bold;
 }
 
 h3 {
@@ -252,6 +254,7 @@ h3+* {
   font-family: "Source Sans 3 Light";
   line-height: 1;
   color: #000;
+  break-before: always;
 }
 
 .inline {
@@ -350,8 +353,8 @@ th {
 }
 
 .fundingnote {
-  margin-top: 1px;
-  margin-bottom: 0;
+  margin-top: 12pt;
+  margin-bottom: 3pt;
 }
 
 .fundingnote + p,

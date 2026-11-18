@@ -50,7 +50,7 @@ async def project(request: Request, project_id):
 @bp.get("/amendment/<amendment_id:str>")
 async def amendment(request: Request, amendment_id):
     result = await fetch_json(
-        f"https://apps.dvrpc.org/ords/WORKPROGRAM28/workprogram/draftamendment?amendmentID={amendment_id}"
+        f"https://apis.dvrpc.org/internal/workprogram28/workprogram/draftamendment?amendmentID={amendment_id}"
     )
     if not result:
         return text(f"Amendment {amendment_id} database request failed")
@@ -146,7 +146,7 @@ async def chapter(request: Request, chapter_id):
 async def monthlyreport(request: Request, mon):
     pageno = request.args.get("page", "1")
     result = await fetch_json(
-        f"https://apps.dvrpc.org/ords/WORKPROGRAM28/workprogram/monthlyReports?repMonth={mon}"
+        f"https://apis.dvrpc.org/internal/workprogram28/workprogram/monthlyReports?repMonth={mon}"
     )
     if not result:
         return text(f"Monthly Report {mon} not found")
